@@ -14,7 +14,12 @@ public class JwtService(
     {
         var jwt = GenerateJwt(userId);
         var refreshToken = GenerateRefreshToken();
-        await cache.SetStringAsync(jwt, refreshToken);
+        
+        await cache.SetStringAsync(jwt, refreshToken, new DistributedCacheEntryOptions
+        {
+            AbsoluteExpirationRelativeToNow = TimeSpan.FromDays(14)
+        });
+        
         return new(jwt, refreshToken);
     }
 
