@@ -11,6 +11,20 @@ public class JwtService(
     IDistributedCache cache
     ) : IJwtService
 {
+    public async Task<KeyValuePair<string, string>> GenerateTokens(string token)
+    {
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var jwtToken = new JwtSecurityToken(token);
+        var strUserId = jwtToken.Claims.SingleOrDefault(x => x.Type == JwtRegisteredClaimNames.Sub)?.Value;
+
+        if (strUserId is null)
+        {
+            throw new Exception("Invalid JWT");
+        }
+
+        return await GenerateTokens(long.Parse(strUserId));
+    }
+    
     public async Task<KeyValuePair<string, string>> GenerateTokens(long userId)
     {
         var jwt = GenerateJwt(userId);
