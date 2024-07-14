@@ -4,6 +4,7 @@ using Microsoft.IdentityModel.Tokens;
 using spotify_stats_api.database;
 using spotify_stats_api.database.repositories;
 using spotify_stats_api.database.repositories.models;
+using spotify_stats_api.lib;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,10 +30,14 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 builder.Services.AddSingleton<DbContext>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+
 builder.Services.AddStackExchangeRedisCache(options =>
 {
     options.Configuration = builder.Configuration.GetConnectionString("redis");
 });
+
+builder.Services.AddScoped<IJwtService, JwtService>();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
