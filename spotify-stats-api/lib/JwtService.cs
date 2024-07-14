@@ -37,6 +37,16 @@ public class JwtService(
         return new JwtSecurityTokenHandler().WriteToken(sectoken);
     }
 
+    public async Task<string?> IsTokenValid(string token)
+    {
+        return await cache.GetStringAsync(token);
+    }
+
+    public async Task RemoveToken(string token)
+    {
+        await cache.RemoveAsync(token);
+    }
+
     private static string GenerateRefreshToken()
     {
         return Guid.NewGuid().ToString();
