@@ -1,4 +1,5 @@
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Text;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.IdentityModel.Tokens;
@@ -30,7 +31,9 @@ public class JwtService(
 
         var sectoken = new JwtSecurityToken(configuration["Jwt:Issuer"],
             configuration["Jwt:Issuer"],
-            null,
+            [
+                new Claim(JwtRegisteredClaimNames.Sub, userId.ToString())
+            ],
             expires: DateTime.Now.AddMinutes(120),
             signingCredentials: credentials);
 
