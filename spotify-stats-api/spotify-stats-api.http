@@ -1,0 +1,6 @@
+@spotify_stats_api_HostAddress = http://localhost:5064
+
+GET {{spotify_stats_api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

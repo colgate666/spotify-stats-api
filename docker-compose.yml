@@ -1,0 +1,6 @@
+﻿services:
+  spotify-stats-api:
+    image: spotify-stats-api
+    build:
+      context: .
+      dockerfile: spotify-stats-api/Dockerfile
