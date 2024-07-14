@@ -4,6 +4,7 @@ using Microsoft.IdentityModel.Tokens;
 using spotify_stats_api.database;
 using spotify_stats_api.database.repositories;
 using spotify_stats_api.database.repositories.models;
+using spotify_stats_api.extensions;
 using spotify_stats_api.lib;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,7 +15,7 @@ var jwtIssuer = builder.Configuration.GetSection("Jwt:Issuer").Get<string>();
 var jwtKey = builder.Configuration.GetSection("Jwt:Key").Get<string>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
+    .AddScheme<JwtBearerOptions, JwtAuthenticationHandler>(JwtBearerDefaults.AuthenticationScheme, options =>
     {
         options.TokenValidationParameters = new TokenValidationParameters
         {
