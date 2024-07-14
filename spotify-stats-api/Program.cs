@@ -1,7 +1,13 @@
+using spotify_stats_api.database;
+using spotify_stats_api.database.repositories;
+using spotify_stats_api.database.repositories.models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddSingleton<DbContext>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
